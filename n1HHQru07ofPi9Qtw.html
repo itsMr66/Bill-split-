@@ -1,0 +1,301 @@
+<html><head><base href="https://splitbill.example.com/" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SimpleSplit - Easy Expense Sharing</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary-color: #6c5ce7;
+    --secondary-color: #a29bfe;
+    --background-color: #f0f3f7;
+    --card-background: rgba(255, 255, 255, 0.7);
+    --text-color: #2d3436;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: 'Poppins', sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--background-color);
+    background-image: 
+      radial-gradient(at 40% 20%, hsla(228,100%,74%,1) 0px, transparent 50%),
+      radial-gradient(at 80% 0%, hsla(189,100%,56%,1) 0px, transparent 50%),
+      radial-gradient(at 0% 50%, hsla(355,100%,93%,1) 0px, transparent 50%),
+      radial-gradient(at 80% 50%, hsla(340,100%,76%,1) 0px, transparent 50%),
+      radial-gradient(at 0% 100%, hsla(22,100%,77%,1) 0px, transparent 50%),
+      radial-gradient(at 80% 100%, hsla(242,100%,70%,1) 0px, transparent 50%),
+      radial-gradient(at 0% 0%, hsla(343,100%,76%,1) 0px, transparent 50%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+  }
+
+  .container {
+    background: var(--card-background);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 
+      0 8px 32px 0 rgba(31, 38, 135, 0.37),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+    max-width: 800px;
+    width: 100%;
+  }
+
+  h1, h2 {
+    color: var(--primary-color);
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  .btn {
+    display: inline-block;
+    background-color: var(--primary-color);
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px var(--shadow-color);
+  }
+
+  .btn:hover {
+    background-color: var(--secondary-color);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px var(--shadow-color);
+  }
+
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+
+  li {
+    background-color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 15px;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px var(--shadow-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s ease;
+  }
+
+  li:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px var(--shadow-color);
+  }
+
+  .summary {
+    background-color: rgba(255, 255, 255, 0.8);
+    border-left: 5px solid var(--primary-color);
+    padding: 20px;
+    margin-top: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px var(--shadow-color);
+  }
+
+  input[type="text"], input[type="number"], select {
+    width: 100%;
+    padding: 12px 20px;
+    margin-bottom: 20px;
+    border: none;
+    border-radius: 50px;
+    background-color: rgba(255, 255, 255, 0.8);
+    box-shadow: inset 0 2px 4px var(--shadow-color);
+    font-size: 16px;
+    transition: all 0.3s ease;
+  }
+
+  input[type="text"]:focus, input[type="number"]:focus, select:focus {
+    outline: none;
+    box-shadow: inset 0 2px 4px var(--shadow-color), 0 0 0 3px var(--secondary-color);
+  }
+
+  .form-group {
+    margin-bottom: 30px;
+  }
+
+  .expense-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .expense-info {
+    flex-grow: 1;
+    margin-right: 10px;
+  }
+
+  @media (max-width: 600px) {
+    .container {
+      padding: 20px;
+    }
+    
+    .btn {
+      padding: 6px 12px;
+      font-size: 12px;
+    }
+
+    h1 {
+      font-size: 24px;
+    }
+
+    h2 {
+      font-size: 20px;
+    }
+
+    input[type="text"], input[type="number"], select {
+      font-size: 14px;
+    }
+
+    .expense-item {
+      flex-direction: row;
+      align-items: center;
+    }
+
+    .expense-info {
+      margin-bottom: 0;
+      font-size: 14px;
+    }
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <h1>SimpleSplit</h1>
+    
+    <div class="form-group">
+      <h2>Members</h2>
+      <ul id="memberList"></ul>
+      <input type="text" id="newMember" placeholder="New member name">
+      <button id="addMember" class="btn">Add Member</button>
+    </div>
+    
+    <div class="form-group">
+      <h2>Add Expense</h2>
+      <input type="text" id="expenseDescription" placeholder="Expense description">
+      <input type="number" id="expenseAmount" placeholder="Amount in ₹">
+      <select id="expensePaidBy"></select>
+      <button id="addExpense" class="btn">Add Expense</button>
+    </div>
+    
+    <div class="form-group">
+      <h2>Expenses</h2>
+      <ul id="expenseList"></ul>
+    </div>
+    
+    <div id="summary" class="summary"></div>
+  </div>
+
+  <script>
+    let members = ['Nilesh', 'Vedant', 'Ved', 'Saiesh', 'Tushar'];
+    let expenses = [];
+
+    function updateMemberList() {
+      const memberList = document.getElementById('memberList');
+      const expensePaidBy = document.getElementById('expensePaidBy');
+      memberList.innerHTML = '';
+      expensePaidBy.innerHTML = '';
+      members.forEach((member, index) => {
+        memberList.innerHTML += `
+          <li>
+            <span>${member}</span>
+            <button class="btn" onclick="removeMember(${index})">Remove</button>
+          </li>
+        `;
+        expensePaidBy.innerHTML += `<option value="${member}">${member}</option>`;
+      });
+    }
+
+    function updateExpenseList() {
+      const expenseList = document.getElementById('expenseList');
+      expenseList.innerHTML = '';
+      expenses.forEach((expense, index) => {
+        expenseList.innerHTML += `
+          <li class="expense-item">
+            <div class="expense-info">
+              <strong>${expense.description}</strong><br>
+              ₹${expense.amount.toFixed(2)} (Paid by: ${expense.paidBy})
+            </div>
+            <button class="btn" onclick="removeExpense(${index})">Remove</button>
+          </li>
+        `;
+      });
+    }
+
+    function updateSummary() {
+      const summary = document.getElementById('summary');
+      const totalExpenses = expenses.reduce((sum, expense) => sum + expense.amount, 0);
+      const splitAmount = totalExpenses / members.length;
+      
+      let summaryHtml = `<h3>Summary</h3>
+                         <p>Total Expenses: ₹${totalExpenses.toFixed(2)}</p>
+                         <p>Split Amount per Person: ₹${splitAmount.toFixed(2)}</p>`;
+
+      members.forEach(member => {
+        const paid = expenses.filter(e => e.paidBy === member)
+                             .reduce((sum, e) => sum + e.amount, 0);
+        const balance = paid - splitAmount;
+        summaryHtml += `<p>${member}: ${balance >= 0 ? 'Owed ₹' + balance.toFixed(2) : 'Owes ₹' + (-balance).toFixed(2)}</p>`;
+      });
+
+      summary.innerHTML = summaryHtml;
+    }
+
+    document.getElementById('addMember').addEventListener('click', function() {
+      const newMember = document.getElementById('newMember').value.trim();
+      if (newMember && !members.includes(newMember)) {
+        members.push(newMember);
+        updateMemberList();
+        updateSummary();
+        document.getElementById('newMember').value = '';
+      }
+    });
+
+    document.getElementById('addExpense').addEventListener('click', function() {
+      const description = document.getElementById('expenseDescription').value.trim();
+      const amount = parseFloat(document.getElementById('expenseAmount').value);
+      const paidBy = document.getElementById('expensePaidBy').value;
+      
+      if (description && !isNaN(amount) && paidBy) {
+        expenses.push({ description, amount, paidBy });
+        updateExpenseList();
+        updateSummary();
+        document.getElementById('expenseDescription').value = '';
+        document.getElementById('expenseAmount').value = '';
+      }
+    });
+
+    function removeMember(index) {
+      members.splice(index, 1);
+      updateMemberList();
+      updateSummary();
+    }
+
+    function removeExpense(index) {
+      expenses.splice(index, 1);
+      updateExpenseList();
+      updateSummary();
+    }
+
+    // Initialize the app
+    updateMemberList();
+    updateExpenseList();
+    updateSummary();
+  </script>
+</body></html>
